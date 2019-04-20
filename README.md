@@ -19,9 +19,13 @@ Install `Mono` from [here](https://www.mono-project.com/download/stable/).
 
 ## Build
 
-To build, 
-`nuget restore`
-`msbuild`
+To build
+
+``` 
+nuget restore
+
+msbuild
+```
 
 To run, `mono  /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/xsp4.exe --address=127.0.0.1 --port=5000`
 
