@@ -27,7 +27,13 @@ nuget restore
 msbuild
 ```
 
-To run, `mono  /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/xsp4.exe --address=127.0.0.1 --port=5000`
+To run 
+```
+mono  /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/xsp4.exe --address=127.0.0.1 --port=5000
+
+```
+
+`Note: the path to xsp4.exe might be different in Linux and Windows`
 
 This starts up a server.
 
