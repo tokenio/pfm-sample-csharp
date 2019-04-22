@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("pfm_sample_csharp")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("A sample application to create and use access token.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Token Inc.")]
 [assembly: AssemblyProduct("pfm_sample_csharp")]
 [assembly: AssemblyCopyright("Copyright ©  2019")]
 [assembly: AssemblyTrademark("")]
