@@ -133,8 +133,8 @@
       <Private>True</Private>
       <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
-    <Reference Include="Token.SDK.Net, Version=1.2.4.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\Token.SDK.Net.1.2.4\lib\net451\Token.SDK.Net.dll</HintPath>
+    <Reference Include="Token.SDK.Net, Version=1.2.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\Token.SDK.Net.1.2.0\lib\net451\Token.SDK.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
@@ -159,10 +159,7 @@
   <ItemGroup>
     <Content Include=".gitignore" />
     <Content Include="Content\style.css" />
-    <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <None Include="log4net.config" />
     <Content Include="Scripts\script.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -175,24 +172,21 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Application\About.cshtml" />
-    <Content Include="Views\Application\Contact.cshtml" />
     <Content Include="Views\Application\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="fonts" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="grpc_csharp_ext.x64.dll" />
+    <None Include="grpc_csharp_ext.x86.dll" />
+    <None Include="libgrpc_csharp_ext.x64.dylib" />
+    <None Include="libgrpc_csharp_ext.x64.so" />
+    <None Include="libgrpc_csharp_ext.x86.dylib" />
+    <None Include="libgrpc_csharp_ext.x86.so" />
+    <None Include="log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <PropertyGroup>
@@ -213,9 +207,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>5000</DevelopmentServerPort>
+          <DevelopmentServerPort>3000</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:5000/</IISUrl>
+          <IISUrl>http://localhost:3000/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl />
