@@ -175,17 +175,6 @@
     <Content Include="Views\Application\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-    <Folder Include="fonts" />
-    <Folder Include="Models\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="grpc_csharp_ext.x64.dll" />
-    <None Include="grpc_csharp_ext.x86.dll" />
-    <None Include="libgrpc_csharp_ext.x64.dylib" />
-    <None Include="libgrpc_csharp_ext.x64.so" />
-    <None Include="libgrpc_csharp_ext.x86.dylib" />
-    <None Include="libgrpc_csharp_ext.x86.so" />
     <None Include="log4net.config" />
     <None Include="packages.config" />
   </ItemGroup>

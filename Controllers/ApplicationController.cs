@@ -16,12 +16,12 @@ namespace pfm_sample_csharp.Controllers
     public class ApplicationController : Controller
     {
         // Connect to Token's development sandbox
-        private static TokenClient tokenClient = initializeSDK();
+        private static TokenClient tokenClient = InitializeSDK();
 
         // Create a Member (Token user account). A "real world" server would
         // use the same member instead of creating a new one for each run;
         // this demo creates a a new member for easier demos/testing.
-        private static Member pfmMember = initializeMember(tokenClient);
+        private static Member pfmMember = InitializeMember(tokenClient);
         
         public ActionResult Index()
         {
@@ -52,7 +52,7 @@ namespace pfm_sample_csharp.Controllers
                 .SetToMemberId(pfmMember.MemberId())
                 .SetToAlias(pfmMember.GetFirstAliasBlocking())
                 .SetRefId(refId)
-                .SetRedirectUrl("http://127.0.0.1:5000/fetch-balances")
+                .SetRedirectUrl("http://localhost:3000/fetch-balances")
                 .SetCsrfToken(csrfToken)
                 .build();
 
@@ -103,7 +103,7 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>TokenIO SDK instance</returns>
         [NonAction]
-        private static TokenClient initializeSDK()
+        private static TokenClient InitializeSDK()
         {
             return TokenClient.NewBuilder()
                 .ConnectTo(TokenCluster.SANDBOX)
@@ -117,7 +117,7 @@ namespace pfm_sample_csharp.Controllers
         /// <param name="tokenClient">tokenClient Token SDK client</param>
         /// <returns>Logged-in member</returns>
         [NonAction]
-        private static Member initializeMember(TokenClient tokenClient)
+        private static Member InitializeMember(TokenClient tokenClient)
         {
             // An alias is a human-readable way to identify a member, e.g., a domain or email address.
             // If a domain alias is used instead of an email, please contact Token
