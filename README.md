@@ -29,7 +29,7 @@ msbuild
 
 To run 
 ```
-mono  /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/xsp4.exe --address=127.0.0.1 --port=5000
+mono  /Library/Frameworks/Mono.framework/Versions/Current/lib/mono/4.5/xsp4.exe --address=127.0.0.1 --port=3000
 ```
 
 `Note: the path to xsp4.exe might be different in Linux and Windows`
@@ -40,6 +40,6 @@ The server operates against Token's Sandbox environment by default.
 This testing environment lets you try out UI and account flows without
 exposing real bank accounts.
 
-The server shows a web page at `127.0.0.1:5000`. The page has a Link with Token button.
+The server shows a web page at `127.0.0.1:3000`. The page has a Link with Token button.
 Clicking the button displays Token UI that requests an Access Token.
 When the app has an Access Token, it uses that Access Token to get account balances.
