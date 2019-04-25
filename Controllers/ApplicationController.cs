@@ -95,7 +95,7 @@ namespace pfm_sample_csharp.Controllers
             }
 
             // respond to script.js with JSON
-            return $"\"balances\":[" + string.Join(",", balanceJsons) + "]}";
+            return "\"balances\":[" + string.Join(",", balanceJsons) + "]}";
         }
 
         /// <summary>
@@ -107,7 +107,6 @@ namespace pfm_sample_csharp.Controllers
         {
             return TokenClient.NewBuilder()
                 .ConnectTo(TokenCluster.SANDBOX)
-                .DeveloperKey("4qY7lqQw8NOl9gng0ZHgT4xdiDqxqoGVutuZwrUYQsI")
                 .Build();
         }
         
@@ -134,7 +133,7 @@ namespace pfm_sample_csharp.Controllers
             // The Token UI shows this (and the alias) to the user when requesting access.
             member.SetProfile(new Profile
             {
-                DisplayNameFirst = "Info Demo"
+                DisplayNameFirst = "PFM Demo"
             });
             return member;
         }

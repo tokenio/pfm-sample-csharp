@@ -17,7 +17,7 @@ Install `Mono` from [here](https://www.mono-project.com/download/stable/).
 
  `Mono` is an open source implementation of Microsoft's .NET Framework. It brings the .NET framework to non-Windows envrionments like Linux and OSX.
 
-## Build
+## Build and Run
 
 To build
 
@@ -42,4 +42,6 @@ The server shows a web page at `localhost:3000`. The page has a Link with Token 
 Clicking the button displays Token UI that requests an Access Token.
 When the app has an Access Token, it uses that Access Token to get account balances.
 
-`Note: If something doesn't work, clear the browser cache.`
+### Troubleshooting
+
+If anything goes wrong, try to clear your browser's cache before retest.
