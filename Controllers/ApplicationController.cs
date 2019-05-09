@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -47,7 +46,7 @@ namespace pfm_sample_csharp.Controllers
                 Value = csrfToken
             });
             // Create a token request to be stored
-            var tokenRequest = TokenRequest.accessTokenRequestBuilder(
+            var tokenRequest = TokenRequest.AccessTokenRequestBuilder(
                     ResourceType.Accounts, ResourceType.Balances)
                 .SetToMemberId(pfmMember.MemberId())
                 .SetToAlias(pfmMember.GetFirstAliasBlocking())
