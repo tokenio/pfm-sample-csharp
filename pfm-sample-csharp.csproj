@@ -92,8 +92,8 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Token.SDK.Net, Version=1.2.1.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\Token.SDK.Net.1.2.1\lib\net451\Token.SDK.Net.dll</HintPath>
+    <Reference Include="Token.SDK.Net, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\Token.SDK.Net.2.0.0-beta1\lib\netstandard2.0\Token.SDK.Net.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -179,7 +179,6 @@
     <None Include="Content\bootstrap.css.map" />
     <None Include="Content\bootstrap.min.css" />
     <None Include="Content\bootstrap.min.css.map" />
-    <None Include="log4net.config" />
     <None Include="packages.config" />
     <None Include="Scripts\bootstrap.bundle.js" />
     <None Include="Scripts\bootstrap.bundle.js.map" />
