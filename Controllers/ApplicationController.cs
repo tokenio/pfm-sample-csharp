@@ -32,7 +32,7 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>RedirectResult</returns>
         [HttpPost]
-        public ActionResult RequestBalances()
+        public string RequestBalances()
         {
             // generate CSRF token
             var csrfToken = Util.Nonce();
@@ -60,9 +60,8 @@ namespace pfm_sample_csharp.Controllers
             //generate the Token request URL to redirect to
             var tokenRequestUrl = tokenClient.GenerateTokenRequestUrlBlocking(requestId);
 
-            //send a 302 redirect
-            Response.StatusCode = 302;
-            return new RedirectResult(tokenRequestUrl);
+            //send Token Request URL
+            return tokenRequestUrl;
         }
 
         /// <summary>
