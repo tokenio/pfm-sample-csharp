@@ -39,6 +39,9 @@ namespace pfm_sample_csharp.Controllers
 
             // generate a reference ID for the token
             var refId = Util.Nonce();
+
+            // generate Redirect Url
+            var redirectUrl = string.Format("{0}://{1}/{2}", Request.Url.Scheme, Request.Url.Authority, "redeem");
             
             // set CSRF token in browser cookie
             Response.Cookies.Add(new HttpCookie("csrf_token")
