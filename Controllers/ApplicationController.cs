@@ -32,13 +32,16 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>RedirectResult</returns>
         [HttpPost]
-        public ActionResult RequestBalances()
+        public string RequestBalances()
         {
             // generate CSRF token
             var csrfToken = Util.Nonce();
 
             // generate a reference ID for the token
             var refId = Util.Nonce();
+
+            // generate Redirect Url
+            var redirectUrl = string.Format("{0}://{1}/{2}", Request.Url.Scheme, Request.Url.Authority, "fetch-balances");
             
             // set CSRF token in browser cookie
             Response.Cookies.Add(new HttpCookie("csrf_token")
@@ -51,7 +54,7 @@ namespace pfm_sample_csharp.Controllers
                 .SetToMemberId(pfmMember.MemberId())
                 .SetToAlias(pfmMember.GetFirstAliasBlocking())
                 .SetRefId(refId)
-                .SetRedirectUrl("http://localhost:3000/fetch-balances")
+                .SetRedirectUrl(redirectUrl)
                 .SetCsrfToken(csrfToken)
                 .build();
 
@@ -60,9 +63,8 @@ namespace pfm_sample_csharp.Controllers
             //generate the Token request URL to redirect to
             var tokenRequestUrl = tokenClient.GenerateTokenRequestUrlBlocking(requestId);
 
-            //send a 302 redirect
-            Response.StatusCode = 302;
-            return new RedirectResult(tokenRequestUrl);
+            //send Token Request URL
+            return tokenRequestUrl;
         }
 
         /// <summary>
@@ -94,7 +96,7 @@ namespace pfm_sample_csharp.Controllers
             }
 
             // respond to script.js with JSON
-            return "\"balances\":[" + string.Join(",", balanceJsons) + "]}";
+            return "{\"balances\":[" + string.Join(",", balanceJsons) + "]}";
         }
 
         /// <summary>

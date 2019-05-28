@@ -1,0 +1,9 @@
+bin
+keys
+obj
+packages
+.DS_Store
+.git
+.gitignore
+.dockerignore
+Dockerfile
