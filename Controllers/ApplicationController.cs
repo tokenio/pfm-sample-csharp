@@ -134,8 +134,11 @@ namespace pfm_sample_csharp.Controllers
             // The Token UI shows this (and the alias) to the user when requesting access.
             member.SetProfile(new Profile
             {
-                DisplayNameFirst = "PFM Demo"
+                DisplayNameFirst = "Demo",
+                DisplayNameLast = "PFM"
             });
+            byte[] pict = System.IO.File.ReadAllBytes("Content/favicon.png");
+            member.SetProfilePictureBlocking("image/png", pict);
             return member;
         }
     }

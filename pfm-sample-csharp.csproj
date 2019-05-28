@@ -259,8 +259,6 @@
   </Target>
   <Import Project="packages\Grpc.Core.1.11.0\build\net45\Grpc.Core.targets" Condition="Exists('packages\Grpc.Core.1.11.0\build\net45\Grpc.Core.targets')" />
   <Import Project="packages\Grpc.Core.1.20.1\build\net45\Grpc.Core.targets" Condition="Exists('packages\Grpc.Core.1.20.1\build\net45\Grpc.Core.targets')" />
-  <Import Project="packages\Grpc.Core.1.11.0\build\net45\Grpc.Core.targets" Condition="Exists('packages\Grpc.Core.1.11.0\build\net45\Grpc.Core.targets')" />
-  <Import Project="packages\Grpc.Core.1.20.1\build\net45\Grpc.Core.targets" Condition="Exists('packages\Grpc.Core.1.20.1\build\net45\Grpc.Core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
          Other similar extension points exist, see Microsoft.Common.targets.
     <Target Name="BeforeBuild">
