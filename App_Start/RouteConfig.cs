@@ -14,11 +14,23 @@ namespace pfm_sample_csharp
                 "request-balances",
                 new {controller = "Application", action = "RequestBalances"}
             );
+
+            routes.MapRoute(
+                "ReqBalancePopup",
+                "request-balances-popup",
+                new {controller = "Application", action = "RequestBalancesPopup"}
+            );
             
             routes.MapRoute(
                 "FchBalance",
                 "fetch-balances",
                 new {controller = "Application", action = "FetchBalances"}
+            );
+
+            routes.MapRoute(
+                "FchBalancePopup",
+                "fetch-balances-popup",
+                new {controller = "Application", action = "FetchBalancesPopup"}
             );
             
             routes.MapRoute(

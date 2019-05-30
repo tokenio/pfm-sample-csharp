@@ -32,11 +32,52 @@ namespace pfm_sample_csharp.Controllers
         }
 
         /// <summary>
-        /// Endpoint for requesting access to account balances
+        /// Endpoint for requesting access to account balances via redirect
         /// </summary>
         /// <returns>RedirectResult</returns>
+        [HttpGet]
+        public RedirectResult RequestBalances()
+        {
+            // generate CSRF token
+            var csrfToken = Util.Nonce();
+
+            // generate a reference ID for the token
+            var refId = Util.Nonce();
+
+            // generate Redirect Url
+            var redirectUrl = string.Format("{0}://{1}/{2}", Request.Url.Scheme, Request.Url.Authority, "fetch-balances");
+            
+            // set CSRF token in browser cookie
+            Response.Cookies.Add(new HttpCookie("csrf_token")
+            {
+                Value = csrfToken
+            });
+            // Create a token request to be stored
+            var tokenRequest = TokenRequest.AccessTokenRequestBuilder(
+                    ResourceType.Accounts, ResourceType.Balances)
+                .SetToMemberId(pfmMember.MemberId())
+                .SetToAlias(pfmMember.GetFirstAliasBlocking())
+                .SetRefId(refId)
+                .SetRedirectUrl(redirectUrl)
+                .SetCsrfToken(csrfToken)
+                .build();
+
+            var requestId = pfmMember.StoreTokenRequestBlocking(tokenRequest);
+
+            //generate the Token request URL to redirect to
+            var tokenRequestUrl = tokenClient.GenerateTokenRequestUrlBlocking(requestId);
+
+            //send a 302 redirect
+            Response.StatusCode = 302;
+            return new RedirectResult(tokenRequestUrl);
+        }
+
+        /// <summary>
+        /// Endpoint for requesting access to account balances via Popup
+        /// </summary>
+        /// <returns>Result</returns>
         [HttpPost]
-        public string RequestBalances()
+        public string RequestBalancesPopup()
         {
             // generate CSRF token
             var csrfToken = Util.Nonce();
@@ -72,11 +113,43 @@ namespace pfm_sample_csharp.Controllers
         }
 
         /// <summary>
-        /// Endpoint for transfer payment, called by client side after user approves payment
+        /// Endpoint for transfer payment, called by client side after user approves payment from Redirect flow
         /// </summary>
         /// <returns>Balances parsed in JSON</returns>
         [HttpGet]
         public string FetchBalances()
+        {
+            var queryParams = Request.QueryString.ToString();
+
+            // retrieve CSRF token from browser cookie
+            var csrfToken = Request.Cookies["csrf_token"];
+
+            // check CSRF token and retrieve state and token ID from callback parameters
+            var callback = tokenClient.ParseTokenRequestCallbackUrlBlocking(
+                queryParams, csrfToken.Value);
+            
+            // use access token's permissions from now on, set true if customer initiated request
+            var representable = pfmMember.ForAccessToken(callback.TokenId, false);
+            
+            var accounts = representable.GetAccountsBlocking();
+            var balanceJsons = new List<string>();
+            foreach (var account in accounts)
+            {
+                //for each account, get its balance
+                var balance = account.GetBalanceBlocking(Key.Types.Level.Standard).Current;
+                balanceJsons.Add(JsonConvert.SerializeObject(balance));
+            }
+
+            // respond to script.js with JSON
+            return "{\"balances\":[" + string.Join(",", balanceJsons) + "]}";
+        }
+
+        /// <summary>
+        /// Endpoint for transfer payment, called by client side after user approves payment from Popup flow
+        /// </summary>
+        /// <returns>Balances parsed in JSON</returns>
+        [HttpGet]
+        public string FetchBalancesPopup()
         {
             var queryParams = Request.QueryString.ToString();
 
