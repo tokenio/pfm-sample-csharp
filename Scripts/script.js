@@ -92,9 +92,9 @@ function createPopupButton() {
     );
 }
 
-function redirectTokenRequest() {
+function redirectTokenRequest(done) {
     // go to request balances
-    document.location.assign("/request-balances");
+    done("/request-balances");
 }
 
 // set up a function to fetch the Token Request Function
