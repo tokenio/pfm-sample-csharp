@@ -119,14 +119,14 @@ namespace pfm_sample_csharp.Controllers
         [HttpGet]
         public string FetchBalances()
         {
-            var queryParams = Request.QueryString.ToString();
+            var callbackUrl = Request.Url.ToString();
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
             // check CSRF token and retrieve state and token ID from callback parameters
             var callback = tokenClient.ParseTokenRequestCallbackUrlBlocking(
-                queryParams, csrfToken.Value);
+                callbackUrl, csrfToken.Value);
             
             // use access token's permissions from now on, set true if customer initiated request
             var representable = pfmMember.ForAccessToken(callback.TokenId, false);
@@ -151,13 +151,13 @@ namespace pfm_sample_csharp.Controllers
         [HttpGet]
         public string FetchBalancesPopup()
         {
-            var queryParams = Request.QueryString.ToString();
+            var queryParams = Request.QueryString;
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
             // check CSRF token and retrieve state and token ID from callback parameters
-            var callback = tokenClient.ParseTokenRequestCallbackUrlBlocking(
+            var callback = tokenClient.ParseTokenRequestCallbackParamsBlocking(
                 queryParams, csrfToken.Value);
             
             // use access token's permissions from now on, set true if customer initiated request

@@ -92,9 +92,6 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Token.SDK.Net, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>packages\Token.SDK.Net.2.0.0-beta1\lib\netstandard2.0\Token.SDK.Net.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -127,6 +124,10 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="Token.SDK.Net, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>packages\Token.SDK.Net.2.0.0-beta2\lib\netstandard2.0\Token.SDK.Net.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
