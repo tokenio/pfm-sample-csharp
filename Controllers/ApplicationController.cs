@@ -2,17 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Tokenio;
-using Tokenio.Proto.BankLink;
 using Tokenio.Proto.Common.AliasProtos;
 using Tokenio.Proto.Common.MemberProtos;
 using Tokenio.Proto.Common.SecurityProtos;
-using Tokenio.Proto.Common.TransactionProtos;
 using Tokenio.Security;
 using Member = Tokenio.Member;
 using TokenRequest = Tokenio.TokenRequest;
@@ -42,7 +39,7 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>RedirectResult</returns>
         [HttpGet]
-        public async Task<RedirectResult> RequestBalances()
+        public Task<RedirectResult> RequestBalances()
         {
             // generate CSRF token
             var csrfToken = Util.Nonce();
@@ -59,24 +56,24 @@ namespace pfm_sample_csharp.Controllers
                 Value = csrfToken
             });
 
-            return await GetPfmMember().FlatMap(mem => mem.GetFirstAlias()
+            return GetPfmMember().FlatMap(mem => mem.GetFirstAlias()
                 .FlatMap(alias => mem.StoreTokenRequest(
-                        // Create a token request to be stored
-                        TokenRequest.AccessTokenRequestBuilder(ResourceType.Accounts, ResourceType.Balances)
-                            .SetToMemberId(mem.MemberId())
-                            .SetToAlias(alias)
-                            .SetRefId(refId)
-                            .SetRedirectUrl(redirectUrl)
-                            .SetCsrfToken(csrfToken)
-                            .build())
-                    // generate the Token request URL to redirect to
-                    .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId))
-                    .Map(url =>
-                    {
-                        // send a 302 redirect
-                        Response.StatusCode = 302;
-                        return new RedirectResult(url);
-                    })));
+                    // Create a token request to be stored
+                    TokenRequest.AccessTokenRequestBuilder(ResourceType.Accounts, ResourceType.Balances)
+                        .SetToMemberId(mem.MemberId())
+                        .SetToAlias(alias)
+                        .SetRefId(refId)
+                        .SetRedirectUrl(redirectUrl)
+                        .SetCsrfToken(csrfToken)
+                        .build()))
+                // generate the Token request URL to redirect to
+                .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId))
+                .Map(url =>
+                {
+                    // send a 302 redirect
+                    Response.StatusCode = 302;
+                    return new RedirectResult(url);
+                }));
         }
 
         /// <summary>
@@ -84,7 +81,7 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>Result</returns>
         [HttpPost]
-        public async Task<string> RequestBalancesPopup()
+        public Task<string> RequestBalancesPopup()
         {
             // generate CSRF token
             var csrfToken = Util.Nonce();
@@ -102,18 +99,18 @@ namespace pfm_sample_csharp.Controllers
                 Value = csrfToken
             });
 
-            return await GetPfmMember().FlatMap(mem => mem.GetFirstAlias()
+            return GetPfmMember().FlatMap(mem => mem.GetFirstAlias()
                 .FlatMap(alias => mem.StoreTokenRequest(
-                        // Create a token request to be stored
-                        TokenRequest.AccessTokenRequestBuilder(ResourceType.Accounts, ResourceType.Balances)
-                            .SetToMemberId(mem.MemberId())
-                            .SetToAlias(alias)
-                            .SetRefId(refId)
-                            .SetRedirectUrl(redirectUrl)
-                            .SetCsrfToken(csrfToken)
-                            .build())
-                    // generate the Token request URL to redirect to
-                    .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId))));
+                    // Create a token request to be stored
+                    TokenRequest.AccessTokenRequestBuilder(ResourceType.Accounts, ResourceType.Balances)
+                        .SetToMemberId(mem.MemberId())
+                        .SetToAlias(alias)
+                        .SetRefId(refId)
+                        .SetRedirectUrl(redirectUrl)
+                        .SetCsrfToken(csrfToken)
+                        .build()))
+                // generate the Token request URL to redirect to
+                .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId)));
         }
 
         /// <summary>
@@ -121,14 +118,14 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>Balances parsed in JSON</returns>
         [HttpGet]
-        public async Task<string> FetchBalances()
+        public Task<string> FetchBalances()
         {
             var callbackUrl = Request.Url.ToString();
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
-            return await GetPfmMember()
+            return GetPfmMember()
                 // check CSRF token and retrieve state and token ID from callback parameters
                 .FlatMap(mem => tokenClient.ParseTokenRequestCallbackUrl(callbackUrl, csrfToken.Value) 
                     // use access token's permissions from now on
@@ -151,14 +148,14 @@ namespace pfm_sample_csharp.Controllers
         /// </summary>
         /// <returns>Balances parsed in JSON</returns>
         [HttpGet]
-        public async Task<string> FetchBalancesPopup()
+        public Task<string> FetchBalancesPopup()
         {
             var queryParams = Request.QueryString;
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
-            return await GetPfmMember() 
+            return GetPfmMember() 
                 // check CSRF token and retrieve state and token ID from callback parameters
                 .FlatMap(mem => tokenClient.ParseTokenRequestCallbackParams(queryParams, csrfToken.Value)
                     // use access token's permissions from now on
@@ -177,11 +174,11 @@ namespace pfm_sample_csharp.Controllers
         }
 
         [NonAction]
-        private static async Task<Member> GetPfmMember()
+        private static Task<Member> GetPfmMember()
         {
             return pfmMember != null
-                ? await Task.FromResult(pfmMember)
-                : await InitializeMember(tokenClient)
+                ? Task.FromResult(pfmMember)
+                : InitializeMember(tokenClient)
                     .Map(mem =>
                     {
                         pfmMember = mem;
@@ -210,13 +207,13 @@ namespace pfm_sample_csharp.Controllers
         /// <param name="tokenClient">tokenClient Token SDK client</param>
         /// <returns>Logged-in member</returns>
         [NonAction]
-        private static async Task<Member> InitializeMember(TokenClient tokenClient)
+        private static Task<Member> InitializeMember(TokenClient tokenClient)
         {
             var keyDir = Directory.GetFiles(Path.Combine(rootLocation, "keys"));
             var memberIds = keyDir.Where(d => d.Contains("_")).Select(d => d.Replace("_", ":"));
             return !memberIds.Any()
-                ? await CreateMember(tokenClient)
-                : await LoadMember(tokenClient, Path.GetFileName(memberIds.First()));
+                ? CreateMember(tokenClient)
+                : LoadMember(tokenClient, Path.GetFileName(memberIds.First()));
         }
 
         /// <summary>
@@ -227,7 +224,7 @@ namespace pfm_sample_csharp.Controllers
         /// <param name="tokenClient">SDK</param>
         /// <returns>newly-created member</returns>
         [NonAction]
-        private static async Task<Member> CreateMember(TokenClient tokenClient)
+        private static Task<Member> CreateMember(TokenClient tokenClient)
         {
             // An alias is a human-readable way to identify a member, e.g., a domain or email address.
             // If a domain alias is used instead of an email, please contact Token
@@ -239,7 +236,7 @@ namespace pfm_sample_csharp.Controllers
                 Type = Alias.Types.Type.Email,
                 Value = email
             };
-            return await tokenClient.CreateMember(alias)
+            return tokenClient.CreateMember(alias)
                 .FlatMap(async (mem) =>
                 {
                     // A member's profile has a display name and picture.
@@ -263,11 +260,11 @@ namespace pfm_sample_csharp.Controllers
         /// <param name="memberId">ID of Member</param>
         /// <returns>Logged-in member</returns>
         [NonAction]
-        private static async Task<Member> LoadMember(TokenClient tokenClient, string memberId)
+        private static Task<Member> LoadMember(TokenClient tokenClient, string memberId)
         {
             try
             {
-                return await tokenClient.GetMember(memberId);
+                return tokenClient.GetMember(memberId);
             }
             catch (KeyNotFoundException)
             {
