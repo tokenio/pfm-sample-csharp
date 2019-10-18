@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
@@ -21,6 +22,8 @@ namespace pfm_sample_csharp.Controllers
 {
     public class ApplicationController : Controller
     {
+        private static String rootLocation = AppDomain.CurrentDomain.BaseDirectory;
+        
         // Connect to Token's development sandbox
         private static TokenClient tokenClient = InitializeSDK();
 
@@ -193,7 +196,7 @@ namespace pfm_sample_csharp.Controllers
         [NonAction]
         private static TokenClient InitializeSDK()
         {
-            var key = Directory.CreateDirectory("./keys");
+            var key = Directory.CreateDirectory(Path.Combine(rootLocation, "keys"));
 
             return TokenClient.NewBuilder()
                 .ConnectTo(TokenCluster.SANDBOX)
@@ -209,7 +212,7 @@ namespace pfm_sample_csharp.Controllers
         [NonAction]
         private static async Task<Member> InitializeMember(TokenClient tokenClient)
         {
-            var keyDir = Directory.GetFiles("./keys");
+            var keyDir = Directory.GetFiles(Path.Combine(rootLocation, "keys"));
             var memberIds = keyDir.Where(d => d.Contains("_")).Select(d => d.Replace("_", ":"));
             return !memberIds.Any()
                 ? await CreateMember(tokenClient)
@@ -245,7 +248,9 @@ namespace pfm_sample_csharp.Controllers
                     {
                         DisplayNameFirst = "Demo PFM"
                     });
-
+                    byte[] pict = System.IO.File.ReadAllBytes(Path.Combine(rootLocation, "Content/southside.png"));
+                    await mem.SetProfilePicture("image/png", pict);
+                    
                     return mem;
                 });
         }
