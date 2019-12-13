@@ -11,8 +11,10 @@ using Tokenio.Proto.Common.AliasProtos;
 using Tokenio.Proto.Common.MemberProtos;
 using Tokenio.Proto.Common.SecurityProtos;
 using Tokenio.Security;
-using Member = Tokenio.Member;
-using TokenRequest = Tokenio.TokenRequest;
+using Member = Tokenio.Tpp.Member;
+using TokenClient = Tokenio.Tpp.TokenClient;
+using TokenRequest = Tokenio.TokenRequests.TokenRequest;
+using Tokenio.Utils;
 using static Tokenio.Proto.Common.TokenProtos.TokenRequestPayload.Types.AccessBody.Types;
 
 namespace pfm_sample_csharp.Controllers
@@ -65,7 +67,7 @@ namespace pfm_sample_csharp.Controllers
                         .SetRefId(refId)
                         .SetRedirectUrl(redirectUrl)
                         .SetCsrfToken(csrfToken)
-                        .build()))
+                        .Build()))
                 // generate the Token request URL to redirect to
                 .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId))
                 .Map(url =>
@@ -108,7 +110,7 @@ namespace pfm_sample_csharp.Controllers
                         .SetRefId(refId)
                         .SetRedirectUrl(redirectUrl)
                         .SetCsrfToken(csrfToken)
-                        .build()))
+                        .Build()))
                 // generate the Token request URL to redirect to
                 .FlatMap(requestId => tokenClient.GenerateTokenRequestUrl(requestId)));
         }
@@ -150,14 +152,14 @@ namespace pfm_sample_csharp.Controllers
         [HttpGet]
         public Task<string> FetchBalancesPopup()
         {
-            var queryParams = Request.QueryString;
+            var queryParams = Request.Url.AbsoluteUri;
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
             return GetPfmMember() 
                 // check CSRF token and retrieve state and token ID from callback parameters
-                .FlatMap(mem => tokenClient.ParseTokenRequestCallbackParams(queryParams, csrfToken.Value)
+                .FlatMap(mem => tokenClient.ParseTokenRequestCallbackUrl(queryParams, csrfToken.Value)
                     // use access token's permissions from now on
                     .Map(callback => mem.ForAccessToken(callback.TokenId))) 
                 .FlatMap(representable => representable.GetAccounts())
