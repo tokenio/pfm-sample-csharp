@@ -152,14 +152,14 @@ namespace pfm_sample_csharp.Controllers
         [HttpGet]
         public Task<string> FetchBalancesPopup()
         {
-            var queryParams = Request.Url.AbsoluteUri;
+            var queryParams = Request.QueryString;
 
             // retrieve CSRF token from browser cookie
             var csrfToken = Request.Cookies["csrf_token"];
 
             return GetPfmMember() 
                 // check CSRF token and retrieve state and token ID from callback parameters
-                .FlatMap(mem => tokenClient.ParseTokenRequestCallbackUrl(queryParams, csrfToken.Value)
+                .FlatMap(mem => tokenClient.ParseTokenRequestCallbackParams(queryParams, csrfToken.Value)
                     // use access token's permissions from now on
                     .Map(callback => mem.ForAccessToken(callback.TokenId))) 
                 .FlatMap(representable => representable.GetAccounts())
