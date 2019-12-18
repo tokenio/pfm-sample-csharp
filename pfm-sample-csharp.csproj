@@ -96,7 +96,7 @@
       <HintPath>packages\Token.SDK.Core.0.0.3\lib\netstandard2.0\Token.SDK.Core.dll</HintPath>
     </Reference>
     <Reference Include="Token.SDK.TPP">
-      <HintPath>packages\Token.SDK.TPP.0.0.2\lib\netstandard2.0\Token.SDK.TPP.dll</HintPath>
+      <HintPath>packages\Token.SDK.TPP.0.0.3\lib\netstandard2.0\Token.SDK.TPP.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
