@@ -16,6 +16,7 @@ using TokenClient = Tokenio.Tpp.TokenClient;
 using TokenRequest = Tokenio.TokenRequests.TokenRequest;
 using Tokenio.Utils;
 using static Tokenio.Proto.Common.TokenProtos.TokenRequestPayload.Types.AccessBody.Types;
+using KeyNotFoundException= Tokenio.Security.KeyNotFoundException;
 
 namespace pfm_sample_csharp.Controllers
 {
